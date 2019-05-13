@@ -1,0 +1,8 @@
+<hr>
+<label>UserName:</label>
+<input type="text" class="form-control" [(ngModel)]='username' (input)="onEnterUserName($event)"/>
+<p>{{username}}</p>
+<button
+      class="btn btn-primary"
+      [disabled]="isUserNameEmpty"
+      (click)="onClickClearUserName()">Clear UserName</button>
