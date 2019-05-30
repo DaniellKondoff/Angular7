@@ -10,6 +10,7 @@ export class RecipeService {
   
   recipes: Array<Recipe> = [
     new Recipe(
+      1,
       'A Test Recipe', 
       'This is a simply a test', 
       'https://food-images.files.bbci.co.uk/food/recipes/really_good_kedgeree_75198_16x9.jpg',
@@ -18,6 +19,7 @@ export class RecipeService {
         new Ingredient('French Fries', 20)
       ]),
     new Recipe(
+      2,
       'A Test Recipe 2', 
       'This is a simply a test 2', 
       'https://food-images.files.bbci.co.uk/food/recipes/really_good_kedgeree_75198_16x9.jpg', 
@@ -35,6 +37,10 @@ export class RecipeService {
 
   addIngredientsToShoppingList(ingredients: Ingredient[]){
     this.slService.addIndgredients(ingredients)
+  }
+
+  getRecipeById(id: number) {
+    return this.recipes[id]
   }
 
 }
