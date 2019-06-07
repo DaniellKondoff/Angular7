@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from '../../../services/recipe.service';
 import { Recipe } from '../models/recipe.model';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
@@ -15,7 +15,7 @@ export class RecipeEditComponent implements OnInit {
   recipe: Recipe
   recipeForm: FormGroup;
 
-  constructor(private route: ActivatedRoute, private recipeServide: RecipeService) { }
+  constructor(private route: ActivatedRoute, private recipeServide: RecipeService, private router: Router) { }
 
   ngOnInit() {
     this.route.params
@@ -29,7 +29,17 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.recipeForm)
+    let newRecipe: Recipe;
+    const recipeFormValue = this.recipeForm.value
+    newRecipe = new Recipe(this.id, recipeFormValue.name,recipeFormValue.description, recipeFormValue.imagePath, recipeFormValue.ingredients)
+
+    if(this.editMode){  
+      this.recipeServide.updateRecipe(this.id, newRecipe)
+    }else{
+      this.recipeServide.addRecipe(newRecipe)
+    }
+
+    this.router.navigate(['recipes'])
   }
 
   private initForm(){  
@@ -43,6 +53,7 @@ export class RecipeEditComponent implements OnInit {
       recipeName = recipe.name;
       recipeImagePath = recipe.imagePath;
       recipeDescription = recipe.description;
+
       if(recipe['ingredients']){
         for(let ingredient of recipe.ingredients){
           recipeIngredients.push(
@@ -74,5 +85,13 @@ export class RecipeEditComponent implements OnInit {
         'amount': new FormControl(null, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
       })
     )
+  }
+
+  onCancel(){
+    this.router.navigate(['../'], {relativeTo: this.route})
+  }
+
+  onDeleteIngredient(index: number){
+   (<FormArray>this.recipeForm.get('ingredients')).removeAt(index)
   }
 }
