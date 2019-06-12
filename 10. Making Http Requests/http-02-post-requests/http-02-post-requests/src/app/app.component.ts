@@ -30,7 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onCreatePost(postData: Post) {
-    // Send Http request
     this.postsService.craeteAndStorePost(postData.title, postData.content)
   }
 
@@ -52,8 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
     },
      error => {
       this.isFetching = false;
-      this.error = error.error.error;
-      
+      this.error = error.error.error;    
     });
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpEventType } from '@angular/common/http';
 import { Post } from './post.model';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 
 @Injectable({
@@ -17,7 +17,10 @@ export class PostsService {
 
     this.http.post(
       'https://ng-course-fba83.firebaseio.com/posts.json',
-      postData
+      postData,
+      {
+        observe: 'response'
+      }
     ).subscribe(responseData => {
       console.log(responseData)
     },
@@ -27,7 +30,14 @@ export class PostsService {
   }
 
   fetchPosts() {
-    return this.http.get<{ [key: string]: Post }>('https://ng-course-fba83.firebaseio.com/posts.json')
+    let searchParams = new HttpParams();
+    searchParams = searchParams.append('print', 'pretty');
+    searchParams = searchParams.append('print2', 'pretty2');
+
+    return this.http.get<{ [key: string]: Post }>('https://ng-course-fba83.firebaseio.com/posts.json', {
+      headers: new  HttpHeaders({ "Custom-Header": "Hello" }),
+      params: new HttpParams().set('print', 'pretty')
+    })
       .pipe(map(responseData => {
         const postArray: Post[] = [];
         for (const key in responseData) {
@@ -45,6 +55,16 @@ export class PostsService {
   }
 
   deleteAllPost() {
-    return this.http.delete('https://ng-course-fba83.firebaseio.com/posts.json')
+    return this.http.delete('https://ng-course-fba83.firebaseio.com/posts.json', 
+    {
+      observe: 'events',
+      responseType: 'text'
+    })
+      .pipe(tap(event => {
+      console.log(event);
+      if(event.type === HttpEventType.Response){
+        console.log(event.body)
+      }
+    }))
   }
 }
