@@ -9,7 +9,7 @@ export class RecipeService {
   newRecipeEvent = new Subject();
 
   recipes: Array<Recipe> = [
-    new Recipe(
+ /*    new Recipe(
       1,
       'A Test Recipe', 
       'This is a simply a test', 
@@ -26,7 +26,7 @@ export class RecipeService {
       [
         new Ingredient('Meat', 1),
         new Ingredient('Buns', 40)
-      ])
+      ]) */
   ];
 
   constructor(private slService: ShoppingListService) { }
@@ -55,6 +55,11 @@ export class RecipeService {
 
   deleteRecipeById(index: number){
     this.recipes.splice(index, 1)
+    this.newRecipeEvent.next()
+  }
+
+  setRecipes(recipes : Recipe[]){
+    this.recipes = recipes
     this.newRecipeEvent.next()
   }
 }
