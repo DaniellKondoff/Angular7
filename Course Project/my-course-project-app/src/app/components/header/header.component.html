@@ -7,17 +7,20 @@
         <div class="navbar-default">
             <ul class="nav navbar-nav">
                 <li role="presentation" routerLinkActive="active">
-                    <a routerLink="/auth">Authenticate</a>
+                    <a routerLink="/auth" *ngIf="!isAuth">Authenticate</a>
                 </li>
                 <li role="presentation" routerLinkActive="active">
-                    <a routerLink="/recipes">Recipes</a>
+                    <a routerLink="/recipes" *ngIf="isAuth">Recipes</a>
                 </li>
                 <li role="presentation" routerLinkActive="active">
                     <a routerLink="/shopping-list">Shopping List</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" appDropdown>
+                <li>
+                    <a style="cursor: pointer" *ngIf="isAuth">Logout</a>
+                </li>
+                <li class="dropdown" appDropdown *ngIf="isAuth">
                     <a style="cursor: pointer" class="dropdown-toggle" role="button">Manage
                         <span class="caret"></span>
                     </a>
