@@ -1,4 +1,5 @@
 import { Ingredient } from '../shared/models/ingredient.model';
+import { User } from '../auth/auth/user.model';
 
 export interface State {
     ingredients: Ingredient[]
@@ -7,5 +8,10 @@ export interface State {
 }
 
 export interface AppState {
-    shoppingList: State
+    shoppingList: State;
+    auth: AuthState
+}
+
+export interface AuthState {
+    user: User
 }
