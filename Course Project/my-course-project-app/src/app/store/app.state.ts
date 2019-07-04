@@ -13,5 +13,7 @@ export interface AppState {
 }
 
 export interface AuthState {
-    user: User
+    user: User;
+    authError: string;
+    loading: boolean;
 }
