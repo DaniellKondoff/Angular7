@@ -11,7 +11,7 @@ export const AUTO_LOGIN = '[Auth] AUTO_LOGIN'
 export class AuthSuccess implements Action {
     readonly type: string = AUTH_SUCCESS;
 
-    constructor(public payload: {email: string, userId: string, token: string, expirationDate: Date}){}
+    constructor(public payload: {email: string, userId: string, token: string, expirationDate: Date, redirect: boolean}){}
 }
 
 export class Logout implements Action {
